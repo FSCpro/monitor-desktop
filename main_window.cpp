@@ -1,8 +1,8 @@
 #include "main_window.h"
 #include "utils.h"
-#include <QTime>
 #include <QApplication>
 #include <QMouseEvent>
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,18 +10,25 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget = new QWidget();
     layout = new QHBoxLayout();
     networkLayout = new QVBoxLayout();
+    memoryMonitor = new MemoryMonitor();
     downloadLabel = new QLabel("↓0.0K");
     uploadLabel = new QLabel("↑0.0K");
     timer = new QTimer(this);
 
-    downloadLabel->setStyleSheet("QLabel { font-size: 13px; }");
-    uploadLabel->setStyleSheet("QLabel { font-size: 13px; }");
+    downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #4C4C4C; }");
+    uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #4C4C4C; }");
 
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 
+    networkLayout->setMargin(0);
+    networkLayout->setSpacing(0);
+    networkLayout->addStretch();
     networkLayout->addWidget(uploadLabel);
     networkLayout->addWidget(downloadLabel);
+    networkLayout->addStretch();
 
+    layout->setMargin(0);
+    layout->addWidget(memoryMonitor);
     layout->addLayout(networkLayout);
 
     mainWidget->setLayout(layout);
@@ -35,6 +42,16 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::paintEvent(QPaintEvent *e)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor("#E6E6E6"));
+    painter.drawRect(rect());
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e)
@@ -51,15 +68,6 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
         qApp->quit();
 }
 
-void MainWindow::sleep(unsigned int msec)
-{
-    QTime reachTime = QTime::currentTime().addMSecs(msec);
-
-    while (QTime::currentTime() < reachTime) {
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-    }
-}
-
 void MainWindow::timeout()
 {
     unsigned long long int prevRecv = 0, prevSend = 0;
@@ -67,7 +75,7 @@ void MainWindow::timeout()
 
     Utils::getNetworkBandWidth(prevRecv, prevSend);
 
-    sleep(1000);
+    Utils::sleep(1000);
 
     Utils::getNetworkBandWidth(recv, send);
 

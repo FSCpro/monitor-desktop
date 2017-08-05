@@ -5,6 +5,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QTimer>
+#include "memory_monitor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,6 +16,7 @@ public:
     ~MainWindow();
 
 protected:
+    void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
 
@@ -22,12 +24,11 @@ private:
     QWidget *mainWidget;
     QHBoxLayout *layout;
     QVBoxLayout *networkLayout;
+    MemoryMonitor *memoryMonitor;
     QLabel *downloadLabel;
     QLabel *uploadLabel;
     QTimer *timer;
     QPoint p;
-
-    void sleep(unsigned int msec);
 
 private slots:
     void timeout();
