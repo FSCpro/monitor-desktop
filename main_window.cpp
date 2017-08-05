@@ -2,20 +2,27 @@
 #include "utils.h"
 #include <QTime>
 #include <QApplication>
+#include <QMouseEvent>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
     mainWidget = new QWidget();
     layout = new QHBoxLayout();
-    downloadLabel = new QLabel("↓0.0 KB/s");
-    uploadLabel = new QLabel("↑0.0 KB/s");
+    networkLayout = new QVBoxLayout();
+    downloadLabel = new QLabel("↓0.0K");
+    uploadLabel = new QLabel("↑0.0K");
     timer = new QTimer(this);
 
-    setWindowFlags(Qt::WindowStaysOnTopHint);
+    downloadLabel->setStyleSheet("QLabel { font-size: 13px; }");
+    uploadLabel->setStyleSheet("QLabel { font-size: 13px; }");
 
-    layout->addWidget(downloadLabel);
-    layout->addWidget(uploadLabel);
+    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
+
+    networkLayout->addWidget(uploadLabel);
+    networkLayout->addWidget(downloadLabel);
+
+    layout->addLayout(networkLayout);
 
     mainWidget->setLayout(layout);
     setCentralWidget(mainWidget);
@@ -28,6 +35,20 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *e)
+{
+    if (e->buttons() & Qt::LeftButton)
+        move(e->globalPos() - p);
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton) {
+        p = e->globalPos() - frameGeometry().topLeft();
+    }else if (e->button() == Qt::RightButton)
+        qApp->quit();
 }
 
 void MainWindow::sleep(unsigned int msec)
@@ -50,6 +71,6 @@ void MainWindow::timeout()
 
     Utils::getNetworkBandWidth(recv, send);
 
-    downloadLabel->setText("↓" + QString::number((recv - prevRecv) / 1024.0, 'f', 1) + " KB/s");
-    uploadLabel->setText("↑" + QString::number((send - prevSend) / 1024.0, 'f', 1) + " KB/s");
+    downloadLabel->setText("↓" + QString::number((recv - prevRecv) / 1024.0, 'f', 1) + "K");
+    uploadLabel->setText("↑" + QString::number((send - prevSend) / 1024.0, 'f', 1) + "K");
 }
