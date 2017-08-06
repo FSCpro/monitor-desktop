@@ -57,15 +57,6 @@ void Utils::getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned l
     fclose(fp);
 }
 
-void Utils::sleep(unsigned int msec)
-{
-    QTime reachTime = QTime::currentTime().addMSecs(msec);
-
-    while (QTime::currentTime() < reachTime) {
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-    }
-}
-
 QString Utils::networkConversion(long bytes)
 {
     if (bytes < 1024)
