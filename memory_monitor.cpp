@@ -40,7 +40,7 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
     else if (percent <= 100)
         painter.setBrush(QColor("#FF4B4B"));
 
-    painter.drawRect(QRect(0, 50.9 - percent / 2, width(), percent / 2));
+    painter.drawRect(QRect(0, 51 - percent / 2, width(), percent / 2));
 
     if (percent <= 30)
         painter.setPen(QColor("#FFFFFF"));

@@ -84,3 +84,13 @@ void Utils::sleep(unsigned int msec)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
 }
+
+QString Utils::networkConversion(long bytes)
+{
+    if (bytes < 1024)
+        return QString::number(bytes) + "K";
+    else if (bytes / 1024 < 1024)
+        return QString::number(bytes / 1024, 'r', 1) + "K";
+    else if (bytes / 1024 / 1024 < 1024)
+        return QString::number(bytes / 1024 / 1024, 'r', 1) + "M";
+}

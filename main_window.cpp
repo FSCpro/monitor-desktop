@@ -77,6 +77,7 @@ void MainWindow::timeout()
     Utils::sleep(1000);
     Utils::getNetworkBandWidth(recv, send);
 
-    downloadLabel->setText("↓" + QString::number((recv - prevRecv) / 1024.0, 'f', 1) + "K");
-    uploadLabel->setText("↑" + QString::number((send - prevSend) / 1024.0, 'f', 1) + "K");
+
+    downloadLabel->setText("↓" + Utils::networkConversion(recv - prevRecv));
+    uploadLabel->setText("↑" + Utils::networkConversion(send - prevSend));
 }
