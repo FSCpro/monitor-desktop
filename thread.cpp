@@ -16,6 +16,6 @@ void Thread::run()
         sleep(1);
         Utils::getNetworkBandWidth(recv, send);
 
-        emit updateNetworkSpeed("↓" + Utils::networkConversion(recv - prevRecv), "↑" + Utils::networkConversion(send - prevSend));
+        emit updateNetworkSpeed("↑" + Utils::networkConversion(send - prevSend), "↓" + Utils::networkConversion(recv - prevRecv));
     }
 }
