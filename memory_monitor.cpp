@@ -9,7 +9,7 @@ MemoryMonitor::MemoryMonitor(QWidget *parent)
     QTimer *timer = new QTimer();
     percent = 0;
 
-    timer->start(1000);
+    timer->start(50);
 
     connect(timer, &QTimer::timeout, this, [=]{
         Utils::getMemoryPercent(percent);
@@ -24,36 +24,25 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#4A4A4A"));
+
+    if (percent < 60)
+        painter.setBrush(QColor("#1C834D"));
+    else if (percent >= 60 && percent < 80)
+        painter.setBrush(QColor("#A44200"));
+    else if (percent >= 80)
+        painter.setBrush(QColor("#940000"));
+
     painter.drawRect(rect());
 
-    if (percent <= 30)
-        painter.setBrush(QColor("#63C1FF"));
-    else if (percent <= 50)
-        painter.setBrush(QColor("#2CA7F8"));
-    else if (percent <= 60)
-        painter.setBrush(QColor("#0078C8"));
-    else if (percent <= 70)
-        painter.setBrush(QColor("#FFA54C"));
-    else if (percent <= 80)
-        painter.setBrush(QColor("#FF7E00"));
-    else if (percent <= 100)
-        painter.setBrush(QColor("#FF4B4B"));
+    if (percent < 60)
+        painter.setBrush(QColor("#24CF60"));
+    else if (percent >= 60 && percent < 80)
+        painter.setBrush(QColor("#FF6F00"));
+    else if (percent >= 80)
+        painter.setBrush(QColor("#FF1E1F"));
 
     painter.drawRect(QRect(0, 51 - percent / 2, width(), percent / 2));
 
-    if (percent <= 30)
-        painter.setPen(QColor("#FFFFFF"));
-    else if (percent <= 50)
-        painter.setPen(QColor("#FFFFFF"));
-    else if (percent <= 60)
-        painter.setPen(QColor("#FFFFFF"));
-    else if (percent <= 70)
-        painter.setPen(QColor("#000000"));
-    else if (percent <= 80)
-        painter.setPen(QColor("#000000"));
-    else if (percent <= 100)
-        painter.setPen(QColor("#FFFFFF"));
-
+    painter.setPen(QColor("#FFFFFF"));
     painter.drawText(rect(), Qt::AlignCenter, QString::number(percent, 'r', 0) + "%");
 }

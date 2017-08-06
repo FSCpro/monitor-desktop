@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     menu = new QMenu;
     menu->addAction(quitAction);
 
-    downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
-    uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
+    downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #2E6843; }");
+    uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FF0000; }");
 
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 
@@ -56,7 +56,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#343639"));
+    painter.setBrush(QColor("#F1F1F1"));
     painter.drawRect(rect());
 }
 
