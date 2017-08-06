@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QThread>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     memoryMonitor = new MemoryMonitor();
     downloadLabel = new QLabel("↓0.0K");
     uploadLabel = new QLabel("↑0.0K");
-    timer = new QTimer(this);
+    thread = new Thread();
 
     QAction *quitAction = new QAction("退出", this);
     menu = new QMenu;
@@ -38,10 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->setLayout(layout);
     setCentralWidget(mainWidget);
 
-    timer->start(0);
-
-    connect(timer, &QTimer::timeout, this, &MainWindow::timeout);
     connect(quitAction, &QAction::triggered, this, &QApplication::quit);
+    connect(thread, &Thread::updateNetworkSpeed, this, &MainWindow::updateNetworkSpeed);
+
+    thread->start();
 }
 
 MainWindow::~MainWindow()
@@ -73,15 +74,8 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
         menu->exec(QCursor::pos());
 }
 
-void MainWindow::timeout()
+void MainWindow::updateNetworkSpeed(QString upload, QString download)
 {
-    unsigned long long int prevRecv = 0, prevSend = 0;
-    unsigned long long int recv = 0, send = 0;
-
-    Utils::getNetworkBandWidth(prevRecv, prevSend);
-    Utils::sleep(1000);
-    Utils::getNetworkBandWidth(recv, send);
-
-    downloadLabel->setText("↓" + Utils::networkConversion(recv - prevRecv));
-    uploadLabel->setText("↑" + Utils::networkConversion(send - prevSend));
+    uploadLabel->setText(upload);
+    downloadLabel->setText(download);
 }

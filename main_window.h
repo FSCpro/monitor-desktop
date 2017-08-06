@@ -7,6 +7,7 @@
 #include <QTimer>
 #include "memory_monitor.h"
 #include <QMenu>
+#include "thread.h"
 
 class MainWindow : public QMainWindow
 {
@@ -28,12 +29,12 @@ private:
     MemoryMonitor *memoryMonitor;
     QLabel *downloadLabel;
     QLabel *uploadLabel;
-    QTimer *timer;
+    Thread *thread;
     QPoint p;
     QMenu *menu;
 
 private slots:
-    void timeout();
+    void updateNetworkSpeed(QString, QString);
 };
 
 #endif // MAIN_WINDOW_H
