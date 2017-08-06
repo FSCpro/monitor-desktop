@@ -2,17 +2,40 @@
 #include <QTime>
 #include <QApplication>
 #include <QFile>
-#include <QDebug>
-#include "meminfo.h"
 
 void Utils::getMemoryPercent(int &percent)
 {
-    MemInfo mem;
+    FILE *file = fopen("/proc/meminfo", "r");
+    unsigned long memTotal;
+    unsigned long memAvailable;
+    unsigned long memFree;
+    unsigned long buffers;
+    unsigned long cached;
+    unsigned long swapTotal;
+    unsigned long swapFree;
+    char str[256];
+    char *temp;
 
-    unsigned long total = mem.getMemTotal();
-    unsigned long used = mem.getMemUsed();
+    while(fgets(str, sizeof(str) , file) != NULL) {
+        temp = strtok(str, ": ");
 
-    percent = used * 100.0 / total;
+        if(strcmp(temp, "MemTotal") == 0)
+            memTotal = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "MemAvailable") == 0)
+            memAvailable = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "MemFree") == 0)
+            memFree = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "Buffers") == 0)
+            buffers = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "Cached") == 0)
+            cached = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "SwapTotal") == 0)
+            swapTotal = (unsigned long)atof(strtok (NULL, ": "));
+        else if(strcmp(temp, "SwapFree") == 0)
+            swapFree = (unsigned long)atof(strtok (NULL, ": "));
+    }
+
+    percent = (memTotal - memAvailable) * 100.0 / memTotal;
 }
 
 void Utils::getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned long long int &sendBytes)

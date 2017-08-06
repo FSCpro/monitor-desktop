@@ -16,10 +16,8 @@ CONFIG += c++11
 SOURCES += main.cpp\
         main_window.cpp \
     utils.cpp \
-    memory_monitor.cpp \
-    meminfo.cpp
+    memory_monitor.cpp
 
 HEADERS  += main_window.h \
     utils.h \
-    memory_monitor.h \
-    meminfo.h
+    memory_monitor.h
