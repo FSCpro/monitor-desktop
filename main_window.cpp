@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     uploadLabel = new QLabel("↑0.0K");
     timer = new QTimer(this);
 
+    QAction *quitAction = new QAction("退出", this);
+    menu = new QMenu;
+    menu->addAction(quitAction);
+
     downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
     uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
 
@@ -37,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(500);
 
     connect(timer, &QTimer::timeout, this, &MainWindow::timeout);
+    connect(quitAction, &QAction::triggered, this, &QApplication::quit);
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +70,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         p = e->globalPos() - frameGeometry().topLeft();
     }else if (e->button() == Qt::RightButton)
-        qApp->quit();
+        menu->exec(QCursor::pos());
 }
 
 void MainWindow::timeout()

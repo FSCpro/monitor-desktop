@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QTimer>
 #include "memory_monitor.h"
+#include <QMenu>
 
 class MainWindow : public QMainWindow
 {
@@ -29,6 +30,7 @@ private:
     QLabel *uploadLabel;
     QTimer *timer;
     QPoint p;
+    QMenu *menu;
 
 private slots:
     void timeout();
