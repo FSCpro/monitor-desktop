@@ -9,7 +9,7 @@ MemoryMonitor::MemoryMonitor(QWidget *parent)
     QTimer *timer = new QTimer();
     percent = 0;
 
-    timer->start(50);
+    timer->start(1000);
 
     connect(timer, &QTimer::timeout, this, [=]{
         Utils::getMemoryPercent(percent);
