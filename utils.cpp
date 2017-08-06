@@ -2,16 +2,17 @@
 #include <QTime>
 #include <QApplication>
 #include <QFile>
+#include <QDebug>
+#include "meminfo.h"
 
 void Utils::getMemoryPercent(int &percent)
 {
-    QFile file("/proc/meminfo");
-    file.open(QIODevice::ReadOnly);
+    MemInfo mem;
 
-    while (file.readLine() != NULL) {
-        QString line = file.readLine();
+    unsigned long total = mem.getMemTotal();
+    unsigned long available = mem.getMemAvailable();
 
-    }
+    percent = (total - available) * 100.0 / total;
 }
 
 void Utils::getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned long long int &sendBytes)

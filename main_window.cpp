@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     uploadLabel = new QLabel("↑0.0K");
     timer = new QTimer(this);
 
-    downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #4C4C4C; }");
-    uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #4C4C4C; }");
+    downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #000000; }");
+    uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #000000; }");
 
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
 
@@ -50,7 +50,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#CECEB2"));
+    painter.setBrush(QColor("#F1F1F1"));
     painter.drawRect(rect());
 }
 

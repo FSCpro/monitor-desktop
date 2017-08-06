@@ -6,8 +6,10 @@
 MemoryMonitor::MemoryMonitor(QWidget *parent)
     : QWidget(parent)
 {
-    setFixedWidth(50);
+    setFixedWidth(52);
 
+    int i;
+    Utils::getMemoryPercent(i);
 }
 
 void MemoryMonitor::paintEvent(QPaintEvent *)
@@ -15,6 +17,6 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#F7BCB8"));
+    painter.setBrush(QColor("#EBEBEB"));
     painter.drawRect(rect());
 }
