@@ -1,9 +1,8 @@
 #include "utils.h"
 #include <QTime>
 #include <QApplication>
-#include <QFile>
 
-void Utils::getMemoryPercent(int &percent)
+void Utils::getMemoryPercent(float &percent)
 {
     FILE *file = fopen("/proc/meminfo", "r");
     unsigned long memTotal;
