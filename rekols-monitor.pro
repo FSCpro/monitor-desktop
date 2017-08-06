@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = monitor
+TARGET = rekols-monitor
 TEMPLATE = app
 
 CONFIG += c++11
@@ -23,3 +23,12 @@ HEADERS  += main_window.h \
     utils.h \
     memory_monitor.h \
     thread.h
+
+isEmpty(BINDIR):BINDIR=/usr/bin
+isEmpty(APPDIR):APPDIR=/usr/share/applications
+
+target.path = $$INSTROOT$$BINDIR
+desktop.path = $$INSTROOT$$APPDIR
+desktop.files = rekols-monitor.desktop
+
+INSTALLS += target desktop
