@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = rekols-monitor
+TARGET = monitor
 TEMPLATE = app
 
 CONFIG += c++11

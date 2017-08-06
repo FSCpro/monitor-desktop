@@ -5,6 +5,7 @@
 
 namespace Utils
 {
+    void getMemoryPercent(int &percent);
     void getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned long long int &sendBytes);
     void sleep(unsigned int msec);
 }

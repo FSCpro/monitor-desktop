@@ -50,7 +50,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter.setRenderHint(QPainter::Antialiasing, true);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#E6E6E6"));
+    painter.setBrush(QColor("#CECEB2"));
     painter.drawRect(rect());
 }
 
@@ -74,9 +74,7 @@ void MainWindow::timeout()
     unsigned long long int recv = 0, send = 0;
 
     Utils::getNetworkBandWidth(prevRecv, prevSend);
-
     Utils::sleep(1000);
-
     Utils::getNetworkBandWidth(recv, send);
 
     downloadLabel->setText("↓" + QString::number((recv - prevRecv) / 1024.0, 'f', 1) + "K");

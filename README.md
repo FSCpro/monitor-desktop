@@ -1,6 +1,8 @@
-## 网速显示
+## 监视悬浮窗
 
-[Linux网速监控原理](http://www.jianshu.com/p/1d82fa089d9c)
+监视网速，监视内存占用等
+
+参考：[深度系统监视器原理剖析](http://www.jianshu.com/p/deb0ed35c1c2)
 
 ### Build dependencies
 
@@ -18,6 +20,6 @@
 
 ## License
 
-this is licensed under [GPLv3](LICENSE).
+This project is licensed under [GPLv3](LICENSE).
 
 
