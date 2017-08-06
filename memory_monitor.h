@@ -12,6 +12,9 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *);
+
+private:
+    int percent;
 };
 
 #endif // MEMORYMONITOR_H

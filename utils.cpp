@@ -10,9 +10,9 @@ void Utils::getMemoryPercent(int &percent)
     MemInfo mem;
 
     unsigned long total = mem.getMemTotal();
-    unsigned long available = mem.getMemAvailable();
+    unsigned long used = mem.getMemUsed();
 
-    percent = (total - available) * 100.0 / total;
+    percent = used * 100.0 / total;
 }
 
 void Utils::getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned long long int &sendBytes)
