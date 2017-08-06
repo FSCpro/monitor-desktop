@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     downloadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
     uploadLabel->setStyleSheet("QLabel { font-size: 13px; color: #FFFFFF; }");
 
-    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::Tool);
+    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint);
 
     networkLayout->setMargin(0);
     networkLayout->setSpacing(0);
@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->setLayout(layout);
     setCentralWidget(mainWidget);
 
-    timer->start(500);
+    timer->start(0);
 
     connect(timer, &QTimer::timeout, this, &MainWindow::timeout);
     connect(quitAction, &QAction::triggered, this, &QApplication::quit);
@@ -81,7 +81,6 @@ void MainWindow::timeout()
     Utils::getNetworkBandWidth(prevRecv, prevSend);
     Utils::sleep(1000);
     Utils::getNetworkBandWidth(recv, send);
-
 
     downloadLabel->setText("↓" + Utils::networkConversion(recv - prevRecv));
     uploadLabel->setText("↑" + Utils::networkConversion(send - prevSend));

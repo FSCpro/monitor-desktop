@@ -89,8 +89,10 @@ QString Utils::networkConversion(long bytes)
 {
     if (bytes < 1024)
         return QString::number(bytes) + "B";
-    else if (bytes / 1024 < 1024)
+
+    if (bytes / 1024 < 1024)
         return QString::number(bytes / 1024, 'r', 1) + "K";
-    else if (bytes / 1024 / 1024 < 1024)
+
+    if (bytes / 1024 / 1024 < 1024)
         return QString::number(bytes / 1024 / 1024, 'r', 1) + "M";
 }
