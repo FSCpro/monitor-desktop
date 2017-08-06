@@ -55,5 +55,5 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
     else if (percent <= 100)
         painter.setPen(QColor("#FFFFFF"));
 
-    painter.drawText(rect(), Qt::AlignCenter, QString::number(percent, 'r', 1) + "%");
+    painter.drawText(rect(), Qt::AlignCenter, QString::number(percent, 'r', 0) + "%");
 }
