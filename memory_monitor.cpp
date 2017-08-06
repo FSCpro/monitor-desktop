@@ -24,12 +24,32 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     painter.setPen(Qt::NoPen);
-    painter.setBrush(QColor("#FFFFFF"));
+    painter.setBrush(QColor("#4A4A4A"));
     painter.drawRect(rect());
 
-    painter.setBrush(QColor("#2CA7F8"));
+    if (percent <= 30)
+        painter.setBrush(QColor("#63C1FF"));
+    else if (percent <= 50)
+        painter.setBrush(QColor("#2CA7F8"));
+    else if (percent <= 70)
+        painter.setBrush(QColor("#FFB46A"));
+    else if (percent <= 80)
+        painter.setBrush(QColor("#FF9833"));
+    else if (percent <= 100)
+        painter.setBrush(QColor("#FF4B4B"));
+
     painter.drawRect(QRect(0, 50 - percent / 2, width(), percent / 2));
 
-    painter.setPen(QColor("#000000"));
+    if (percent <= 30)
+        painter.setPen(QColor("#FFFFFF"));
+    else if (percent <= 50)
+        painter.setPen(QColor("#FFFFFF"));
+    else if (percent <= 70)
+        painter.setPen(QColor("#000000"));
+    else if (percent <= 80)
+        painter.setPen(QColor("#000000"));
+    else if (percent <= 100)
+        painter.setPen(QColor("#FFFFFF"));
+
     painter.drawText(rect(), Qt::AlignCenter, QString::number(percent) + "%");
 }
