@@ -31,18 +31,22 @@ void MemoryMonitor::paintEvent(QPaintEvent *)
         painter.setBrush(QColor("#63C1FF"));
     else if (percent <= 50)
         painter.setBrush(QColor("#2CA7F8"));
+    else if (percent <= 60)
+        painter.setBrush(QColor("#0078C8"));
     else if (percent <= 70)
-        painter.setBrush(QColor("#FFB46A"));
+        painter.setBrush(QColor("#FFA54C"));
     else if (percent <= 80)
-        painter.setBrush(QColor("#FF9833"));
+        painter.setBrush(QColor("#FF7E00"));
     else if (percent <= 100)
         painter.setBrush(QColor("#FF4B4B"));
 
-    painter.drawRect(QRect(0, 50 - percent / 2, width(), percent / 2));
+    painter.drawRect(QRect(0, 50.9 - percent / 2, width(), percent / 2));
 
     if (percent <= 30)
         painter.setPen(QColor("#FFFFFF"));
     else if (percent <= 50)
+        painter.setPen(QColor("#FFFFFF"));
+    else if (percent <= 60)
         painter.setPen(QColor("#FFFFFF"));
     else if (percent <= 70)
         painter.setPen(QColor("#000000"));
