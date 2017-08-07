@@ -4,6 +4,8 @@
 
 参考：[深度系统监视器原理剖析](http://www.jianshu.com/p/deb0ed35c1c2)
 
+![](https://bbs.deepin.org/data/attachment/forum/201708/06/211639zqfu255fz38ubj32.gif)
+
 ### Build dependencies
 
 `sudo apt install g++ qt5-default`
