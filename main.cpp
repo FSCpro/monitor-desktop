@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     MainWindow w;
-    w.setFixedSize(115, 50);
+    w.setFixedSize(120, 50);
     w.show();
 
     w.move(QApplication::desktop()->width() - 150, QApplication::desktop()->height() - 100);
