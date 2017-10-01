@@ -1,60 +1,50 @@
 #include "utils.h"
+#include <QFile>
 #include <QTime>
 #include <QApplication>
 
 void Utils::getMemoryPercent(float &percent)
 {
-    FILE *fp = fopen("/proc/meminfo", "r");
-    unsigned long memTotal;
-    unsigned long memAvailable;
-    char str[256];
-    char *temp;
+    QFile file("/proc/meminfo");
+    file.open(QIODevice::ReadOnly);
 
-    while(fgets(str, sizeof(str) , fp) != NULL) {
-        temp = strtok(str, ": ");
+    QString buffer = file.readAll();
+    QStringList lines = buffer.split("\n").filter(QRegExp("^MemTotal|^MemAvailable|^SwapTotal|^SwapFree"));
+    QRegExp sep("\\s+");
 
-        if(strcmp(temp, "MemTotal") == 0)
-            memTotal = (unsigned long)atof(strtok (NULL, ": "));
-        else if(strcmp(temp, "MemAvailable") == 0)
-            memAvailable = (unsigned long)atof(strtok (NULL, ": "));
-    }
+    unsigned long long memTotal = lines.at(0).split(sep).at(1).toLong();
+    unsigned long long memAvailable = lines.at(1).split(sep).at(1).toLong();
+    unsigned long long swapTotal = lines.at(2).split(sep).at(1).toLong();
+    unsigned long long swapFree = lines.at(3).split(sep).at(1).toLong();
 
     percent = (memTotal - memAvailable) * 100.0 / memTotal;
 
-    fclose(fp);
+    file.close();
 }
 
-void Utils::getNetworkBandWidth(unsigned long long int &receiveBytes, unsigned long long int &sendBytes)
+void Utils::getNetworkBandWidth(unsigned long long &receiveBytes, unsigned long long &sendBytes)
 {
-    char buffer[255];
-    FILE *fp = fopen("/proc/net/dev", "r");
+    QFile file("/proc/net/dev");
+    file.open(QIODevice::ReadOnly);
 
-    // Ignore the first two lines of the file.
-    fgets(buffer, 255, fp);
-    fgets(buffer, 255, fp);
+    file.readLine();
+    file.readLine();
 
+    QString buffer;
     receiveBytes = 0;
     sendBytes = 0;
 
-    while (fgets(buffer, 255, fp)) {
-        unsigned long long int rBytes, sBytes;
-        char *line = strdup(buffer);
+    while ((buffer = file.readLine()) != nullptr)
+    {
+        QStringList lines = buffer.trimmed().split(QRegExp("\\s+"));
 
-        char *dev;
-        dev = strtok(line, ":");
-
-        // Filter lo (virtual network device).
-        if (QString::fromStdString(dev).trimmed() != "lo") {
-            sscanf(buffer + strlen(dev) + 2, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", &rBytes, &sBytes);
-
-            receiveBytes += rBytes;
-            sendBytes += sBytes;
+        if (lines.first() != "lo:") {
+            receiveBytes += lines.at(1).toLong();
+            sendBytes += lines.at(9).toLong();
         }
-
-        free(line);
     }
 
-    fclose(fp);
+    file.close();
 }
 
 QString Utils::networkConversion(long bytes)
